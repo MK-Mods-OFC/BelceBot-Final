@@ -22,7 +22,7 @@ const start = async (client = new Client()) => {
     try{
             const getversion = await axios.get('https://raw.githubusercontent.com/MK-Mods-OFC/BelceBot-Final/main/package.json')
     if (mkbotvs.version !== getversion.data.version) { console.log(color('\n[UPDATE]', 'crimson'), color(`Una nueva version de BelceBot fue publicada [${getversion.data.version}], actualizalo para tener todas las actualizaciones! → \n${mkbotvs.homepage}`, 'gold')) }
-    console.log(color('\n[SOPORTE]', 'magenta'), color(`| +34 698 90 13 97 | https://github.com/MK-Mods-OFC/\n`, 'lime'), color(`\n[BelceBot ${mkbotvs.version}]`, 'magenta'), color('Todo listo!\n', 'lime'))
+    console.log(color('\n[SOPORTE]', 'magenta'), color(`| +34 698 90 13 97 | https://github.com/MK-Mods-OFC/\n`, 'lime'), color(`\n[BelceBot ${mkbotvs.version}]`, 'magenta'), color('Tu Bot esta actualizado a la utlima version!\n', 'lime'))
     console.log('[SERVIDOR] Servidor iniciado!')
 
         let necessitaCriar = await criarArquivosNecessarios()
