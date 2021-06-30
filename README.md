@@ -16,7 +16,7 @@ Bot de WhatsApp simple
 > pkg install ffmpeg -y
 > pkg install imagemagick -y
 > git clone https://github.com/MK-Mods-OFC/BelceBot-Final
-> cd BelceBot
+> cd BelceBot-Final
 > npm install
 ```
 ###### Iniciar
@@ -33,7 +33,7 @@ Bot de WhatsApp simple
 * Descargar e instalar ImageMagick [`Click Here`](https://imagemagick.org/script/download.php) (Si quieres que funcionen las notas) 
 ```bash
 > git clone https://github.com/MK-Mods-OFC/BelceBot-Final
-> cd BelceBot
+> cd BelceBot-Final
 > npm install
 ```
 ###### Iniciar
