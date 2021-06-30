@@ -38,7 +38,7 @@ Bot de WhatsApp simple
 ```
 ###### Iniciar
 ```bash
-> node index.js
+> node app.js
 ```
 
 ##### Autor / Creador : [`Mikey69YT`](https://GitHub.com/MK-Mods-OFC) 
