@@ -1,5 +1,5 @@
 # BelceBot
-Bot de WhatsApp simple
+Bot de WhatsApp unicamente para usuarios de PC
 <h1 align="center">Mikey69YT <img src="https://user-images.githubusercontent.com/1303154/88677602-1635ba80-d120-11ea-84d8-d263ba5fc3c0.gif" width="40px" alt="hi"><br>WHATSAPP BOT !</h1>
 
 <p align="center">
@@ -7,23 +7,6 @@ Bot de WhatsApp simple
 </p>
 
 - 👀 Bot creado en codigo de **JavaScript**.
-
-### Para usuarios de Termux
-```bash
-> pkg update && pkg upgrade
-> pkg install git -y
-> pkg install nodejs -y
-> pkg install ffmpeg -y
-> pkg install imagemagick -y
-> git clone https://github.com/MK-Mods-OFC/BelceBot-Final
-> cd BelceBot-Final
-> npm install
-```
-###### Iniciar
-```bash
-> node index.js
-```
-
 ---------
 
 ### Para usuarios de Windows
