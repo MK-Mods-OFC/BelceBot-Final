@@ -1,4 +1,3 @@
-//REQUERINDO MODULOS
 const { decryptMedia } = require('@open-wa/wa-decrypt')
 const menu = require('../lib/menu')
 const moment = require("moment-timezone")
@@ -64,7 +63,7 @@ module.exports = admin = async(client,message) => {
                 resposta += (infoBot.limitarmensagens.status) ? criarTexto(msgs_texto.admin.infocompleta.resposta_variavel.limitarmsgs.on, infoBot.limitarmensagens.max, infoBot.limitarmensagens.intervalo) : msgs_texto.admin.infocompleta.resposta_variavel.limitarmsgs.off
                 // BLOQUEIO DE COMANDOS
                 resposta += (infoBot.bloqueio_cmds.length != 0) ? criarTexto(msgs_texto.admin.infocompleta.resposta_variavel.bloqueiocmds.on, infoBot.bloqueio_cmds.toString()) : msgs_texto.admin.infocompleta.resposta_variavel.bloqueiocmds.off
-                resposta += criarTexto(msgs_texto.admin.infocompleta.resposta_inferior, blockNumber.length, infoBot.cmds_executados, rownerNumber)
+                resposta += criarTexto(msgs_texto.admin.infocompleta.resposta_inferior, blockNumber.length, infoBot.cmds_executados, ownerNumber)
                 if(fotoBot) await client.sendFileFromUrl(from, fotoBot, "foto.jpg", resposta, id)
                 else await client.reply(from, resposta, id)
                 break

@@ -1,7 +1,7 @@
 {
   "name": "BelceBot-Final",
-  "version": "1.16.1",
-  "description": "Bot creado para BelceBu",
+  "version": "1.16.3",
+  "description": "Bot creado para BelceBu.",
   "main": "app",
   "scripts": {
     "start": "node app.js",
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "1.0.20",
-    "@open-wa/wa-automate": "4.7.1",
+    "@open-wa/wa-automate": "4.9.1",
     "@open-wa/wa-decrypt": "3.0.1",
     "@vitalets/google-translate-api": "7.0.0",
     "acrcloud": "1.4.0",
@@ -29,6 +29,7 @@
     "g-i-s": "2.1.6",
     "genius-lyrics": "4.2.9",
     "google-it": "1.6.2",
+    "imgur": "^1.0.2",
     "instagram-url-direct": "1.0.9",
     "moment-timezone": "0.5.31",
     "nedb-async": "0.1.6",

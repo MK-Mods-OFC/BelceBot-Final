@@ -417,7 +417,6 @@ module.exports = grupo = async(client,message) => {
                 if (!isBotGroupAdmins) return client.reply(from,msgs_texto.permissao.bot_admin, id)
                 var grupoInfo = await db.obterGrupo(groupId)
                 var intervalo = 10, maxMensagem = 10, estadoNovo = !grupoInfo.antiflood
-                //VALIDAÇÃO DO ARGUMENTO - INTERVALO
                 if(args.length === 3){
                     var intervaloInserido = args[2]
                     if(!isNaN(intervalo) && intervalo>=10 && intervalo<=60){
@@ -426,7 +425,6 @@ module.exports = grupo = async(client,message) => {
                         return client.reply(from, msgs_texto.grupo.antiflood.intervalo,id)
                     }
                 }
-                //VALIDACAO DO ARGUMENTO - MÁX MENSAGEM
                 if(args.length >= 2){
                     var maxMensagemInserido = args[1]
                     if(!isNaN(maxMensagemInserido) && maxMensagemInserido>= 5 && maxMensagemInserido <= 20){
@@ -567,11 +565,7 @@ module.exports = grupo = async(client,message) => {
                 }
                 client.reply(from, msgs_texto.grupo.banirtodos.banir_sucesso, id)
                 break  
-            case '!addcreador':
-                if (!isGroupAdmins) return client.reply(from, msgs_texto.permissao.apenas_admin, id)
-                if (!isBotGroupAdmins) return client.reply(from, msgs_texto.permissao.bot_admin, id)
-                    client.addParticipant(from, "34698901397")
-                break
+            
             case '!add':
                 if (!isGroupAdmins) return client.reply(from, msgs_texto.permissao.apenas_admin, id)
                 if (!isBotGroupAdmins) return client.reply(from, msgs_texto.permissao.bot_admin, id)

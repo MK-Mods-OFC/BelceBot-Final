@@ -21,12 +21,6 @@ module.exports = info = async(client, message, abrirMenu) => {
         const groupAdmins = isGroupMsg ? await client.getGroupAdmins(groupId) : ''
         const isGroupAdmins = isGroupMsg ? groupAdmins.includes(sender.id) : false
         const ownerNumber = process.env.NUMERO_DONO.trim()
-        const rownerNumber = process.env.NUMERO_RDONO.trim()
-        const ownerNumber2 = process.env.NUMERO_DONO2.trim()
-        const ownerNumber3 = process.env.NUMERO_DONO3.trim()
-        const ownerNumber4 = process.env.NUMERO_DONO4.trim()
-        const ownerNumber5 = process.env.NUMERO_DONO5.trim()
-        const ownerNumber6 = process.env.NUMERO_DONO6.trim()
         if(abrirMenu) command = "!menu"
 
         switch(command){
@@ -34,7 +28,7 @@ module.exports = info = async(client, message, abrirMenu) => {
                 const botFotoURL = await client.getProfilePicFromServer(botNumber+'@c.us')
                 var infoBot = JSON.parse(fs.readFileSync(path.resolve("database/json/bot.json")))
                 var botInicializacaoData = timestampParaData(infoBot.iniciado)
-                var resposta = criarTexto(msgs_texto.info.info.resposta, process.env.NOME_ADMINISTRADOR.trim(), process.env.NOME_BOT.trim(), botInicializacaoData, infoBot.cmds_executados, rownerNumber, version)
+                var resposta = criarTexto(msgs_texto.info.info.resposta, process.env.NOME_ADMINISTRADOR.trim(), process.env.NOME_BOT.trim(), botInicializacaoData, infoBot.cmds_executados, ownerNumber, version)
                 if(botFotoURL != undefined){
                     await client.sendFileFromUrl(from, botFotoURL, "botfoto.jpg", resposta, id)
                 } else {
@@ -45,7 +39,7 @@ module.exports = info = async(client, message, abrirMenu) => {
             case "!reportar":
                 if(args.length == 1) return client.reply(from, erroComandoMsg(command) ,id)
                 var usuarioMensagem = body.slice(10).trim(), resposta = criarTexto(msgs_texto.info.reportar.resposta, username, sender.id.replace("@c.us",""), usuarioMensagem)
-                await client.sendText(rownerNumber+"@c.us", resposta)
+                await client.sendText(ownerNumber+"@c.us", resposta)
                 await client.reply(from,msgs_texto.info.reportar.sucesso,id)
                 break
             
@@ -102,7 +96,7 @@ module.exports = info = async(client, message, abrirMenu) => {
                         case "5":
                             menuResposta = menu.menuDiversao(isGroupMsg)
                             break
-                        case "6":
+                                               case "6":
                             menuResposta = menu.menuCreditos()
                             break
                         case "7":

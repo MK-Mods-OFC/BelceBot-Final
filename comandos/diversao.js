@@ -11,7 +11,7 @@ module.exports = diversao = async(client,message) => {
         var command = commands.toLowerCase().split(' ')[0] || ''
         command = removerNegritoComando(command)
         const args =  commands.split(' ')
-        const ownerNumber = process.env.NUMERO_DONO.trim() // Número do administrador do bot
+        const ownerNumber = process.env.NUMERO_DONO.trim() 
         const botNumber = await client.getHostNumber()
         const groupId = isGroupMsg ? chat.groupMetadata.id : ''
         const groupAdmins = isGroupMsg ? await client.getGroupAdmins(groupId) : ''
