@@ -1,3 +1,4 @@
+//REQUERINDO MODULOS
 const { decryptMedia } = require('@open-wa/wa-decrypt')
 const menu = require('../lib/menu')
 const moment = require("moment-timezone")

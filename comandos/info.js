@@ -96,7 +96,7 @@ module.exports = info = async(client, message, abrirMenu) => {
                         case "5":
                             menuResposta = menu.menuDiversao(isGroupMsg)
                             break
-                                               case "6":
+                        case "6":
                             menuResposta = menu.menuCreditos()
                             break
                         case "7":
