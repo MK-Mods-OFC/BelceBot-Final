@@ -142,6 +142,9 @@ module.exports = info = async(client, message, abrirMenu) => {
                         case "5":
                             menuResposta = menu.menuGrupos()
                             break
+                        case "6":
+                            menuResposta = menu.menuBots()
+                            break
 
                     }
                     await client.sendText(from, dadosResposta+menuResposta)
