@@ -40,11 +40,11 @@ module.exports = admin = async(client,message) => {
         if (!isROwner && !isOwner && !isOwner2 && !isOwner3 && !isOwner4 && !isOwner5 && !isOwner6) return client.reply(from, msgs_texto.permissao.apenas_dono_bot, id)
 
         switch(command){
-            case "!admin":
+            case "×admin":
                 await client.sendText(from, menu.menuAdmin())
                 break
 
-            case "!infocompleta":
+            case "×infocompleta":
                 var fotoBot = await client.getProfilePicFromServer(botNumber+'@c.us')
                 var infoBot = JSON.parse(fs.readFileSync(path.resolve("database/json/bot.json")))
                 var expiracaoLimiteDiario = timestampParaData(infoBot.limite_diario.expiracao * 1000)
@@ -69,7 +69,7 @@ module.exports = admin = async(client,message) => {
                 else await client.reply(from, resposta, id)
                 break
                 
-            case '!entrargrupo':
+            case '×entrargrupo':
                 if (args.length < 2) return await client.reply(from, erroComandoMsg(command), id)
                 var linkGrupo = args[1]
                 var totalGrupos = await client.getAllGroups()
@@ -88,37 +88,37 @@ module.exports = admin = async(client,message) => {
                 }
                 break
 
-            case '!sair':
+            case '×sair':
                 if (!isGroupMsg) return await client.reply(from, msgs_texto.permissao.grupo, id)
                 await client.sendText(from, msgs_texto.admin.sair.sair_sucesso)
                 await client.leaveGroup(groupId)
                 break
 
-            case '!listablock':
+            case '×listablock':
                 var resposta = criarTexto(msgs_texto.admin.listablock.resposta_titulo, blockNumber.length)
                 for (let i of blockNumber) resposta += criarTexto(msgs_texto.admin.listablock.resposta_itens, i.replace(/@c.us/g,''))
                 await client.sendTextWithMentions(from, resposta, id)
                 break
 
-            case '!limpartudo':
+            case '×limpartudo':
                 var chats = await client.getAllChats()
                 for (var c of chats) await client.deleteChat(c.id)
                 await client.sendText(ownerNumber+"@c.us", msgs_texto.admin.limpar.limpar_sucesso)
                 break
             
-            case "!bcmdglobal":
+            case "×bcmdglobal":
                 if(args.length === 1) return await client.reply(from, erroComandoMsg(command) ,id)
                 var usuarioComandos = body.slice(12).split(" "), respostaBloqueio = await bloquearComandosGlobal(usuarioComandos)
                 await client.reply(from, respostaBloqueio, id)
                 break
             
-            case "!dcmdglobal":
+            case "×dcmdglobal":
                 if(args.length === 1) return await client.reply(from,erroComandoMsg(command),id)
                 var usuarioComandos = body.slice(12).split(" "), respostaDesbloqueio = await desbloquearComandosGlobal(usuarioComandos)
                 await client.reply(from, respostaDesbloqueio, id)
                 break
 
-            case '!limpar':
+            case '×limpar':
                 var chats = await client.getAllChats()
                 for (var c of chats) {
                     if(c.id.match(/@c.us/g) && c.id != sender.id) await client.deleteChat(c.id)
@@ -126,19 +126,19 @@ module.exports = admin = async(client,message) => {
                 await client.sendText(ownerNumber+"@c.us", msgs_texto.admin.limpar.limpar_sucesso)
                 break
                 
-            case '!rconfig':
+            case '×rconfig':
                 await db.resetarGrupos()
                 await client.reply(from,msgs_texto.admin.rconfig.reset_sucesso,id)
                 break
 
-            case '!sairgrupos':
+            case '×sairgrupos':
                 var grupos = await client.getAllGroups()
                 for (var grupo of grupos) await client.leaveGroup(grupo.contact.id)
                 var resposta = criarTexto(msgs_texto.admin.sairtodos.resposta, grupos.length)
                 await client.sendText(ownerNumber+"@c.us", resposta, id)
                 break
 
-            case "!bloquear":
+            case "×bloquear":
                 var usuariosBloqueados = []
                 if(quotedMsg){
                     usuariosBloqueados.push(quotedMsgObj.author)
@@ -167,7 +167,7 @@ module.exports = admin = async(client,message) => {
                 }
                 break      
 
-            case "!desbloquear":
+            case "×desbloquear":
                 let usuariosDesbloqueados = []
                 if(quotedMsg){
                     usuariosDesbloqueados.push(quotedMsgObj.author)
@@ -188,7 +188,7 @@ module.exports = admin = async(client,message) => {
                 }
                 break
 
-            case "!autostickerpv":
+            case "×autostickerpv":
                 var novoEstado = !botInfo().autosticker
                 if(novoEstado){
                     botAlterarAutoSticker(true)
@@ -199,7 +199,7 @@ module.exports = admin = async(client,message) => {
                 } 
                 break
 
-            case "!pvliberado":
+            case "×pvliberado":
                 var novoEstado = !botInfo().pvliberado
                 if(novoEstado){
                     botAlterarPvLiberado(true)
@@ -210,7 +210,7 @@ module.exports = admin = async(client,message) => {
                 } 
                 break
 
-            case "!fotobot":
+            case "×fotobot":
                 if(isMedia || quotedMsg){
                     var dadosMensagem = {
                         tipo : (isMedia) ? type : quotedMsg.type,
@@ -231,7 +231,7 @@ module.exports = admin = async(client,message) => {
                 }
                 break
 
-            case "!antitravapv":
+            case "×antitravapv":
                 var novoEstado = !botInfo().antitrava.status
                 if(novoEstado){
                     var maxCaracteres = args[1] || 1500
@@ -244,7 +244,7 @@ module.exports = admin = async(client,message) => {
                 } 
                 break
 
-            case "!limitediario":
+            case "×limitediario":
                 var novoEstado = !botInfo().limite_diario.status
                 if(novoEstado){
                     botAlterarLimiteDiario(true)
@@ -255,7 +255,7 @@ module.exports = admin = async(client,message) => {
                 } 
                 break
 
-            case "!taxalimite":
+            case "×taxalimite":
                 var novoEstado = !botInfo().limitecomandos.status
                 if(novoEstado){
                     if(args.length !== 3) return await client.reply(from, erroComandoMsg(command), id)
@@ -270,7 +270,7 @@ module.exports = admin = async(client,message) => {
                 }
                 break
             
-            case "!limitarmsgs":
+            case "×limitarmsgs":
                 var novoEstado = !botInfo().limitarmensagens.status
                 if(novoEstado){
                     if(args.length !== 3) return await client.reply(from, erroComandoMsg(command), id)
@@ -285,7 +285,7 @@ module.exports = admin = async(client,message) => {
                 }
                 break
             
-            case "!mudarlimite":
+            case "×mudarlimite":
                 if(!botInfo().limite_diario.status) return await client.reply(from, msgs_texto.admin.mudarlimite.erro_limite_diario,id)
                 if(args.length === 1) return await client.reply(from, erroComandoMsg(command),id)
                 var tipo = args[1].toLowerCase(), qtd = args[2]
@@ -295,7 +295,7 @@ module.exports = admin = async(client,message) => {
                 await client.reply(from, criarTexto(msgs_texto.admin.mudarlimite.sucesso, tipo.toUpperCase(), qtd == -1 ? "∞" : qtd), id)
                 break
             
-            case "!usuarios":
+            case "×usuarios":
                 if(args.length === 1) return await client.reply(from, erroComandoMsg(command), id)
                 var tipo = args[1].toLowerCase()
                 var usuarios = await db.obterUsuariosTipo(tipo)
@@ -306,7 +306,7 @@ module.exports = admin = async(client,message) => {
                 await client.sendTextWithMentions(from, resposta)
                 break
 
-            case "!limpartipo":
+            case "×limpartipo":
                 if(args.length === 1) return await client.reply(from, erroComandoMsg(command), id)
                 var tipo = args[1].toLowerCase()
                 var limpou = await db.limparTipo(tipo)
@@ -314,7 +314,7 @@ module.exports = admin = async(client,message) => {
                 await client.reply(from, criarTexto(msgs_texto.admin.limpartipo.sucesso, tipo.toUpperCase()), id)
                 break
 
-            case "!alterartipo":
+            case "×alterartipo":
                 if(args.length === 1) return await client.reply(from, erroComandoMsg(command), id)
                 var usuario_tipo = ""
                 if(quotedMsg) usuario_tipo = quotedMsgObj.author
@@ -332,19 +332,19 @@ module.exports = admin = async(client,message) => {
                 }
                 break
         
-            case "!tipos":
+            case "×tipos":
                 var tipos = botInfo().limite_diario.limite_tipos, respostaTipos = ''
                 for (var tipo in tipos) respostaTipos += criarTexto(msgs_texto.admin.tipos.item_tipo, msgs_texto.tipos[tipo], tipos[tipo] || "∞")
                 await client.reply(from, criarTexto(msgs_texto.admin.tipos.resposta, respostaTipos), id)
                 break
             
-            case "!rtodos":
+            case "×rtodos":
                 if(!botInfo().limite_diario.status) return await client.reply(from, msgs_texto.admin.rtodos.erro_limite_diario,id)
                 await db.resetarComandosDia()
                 await client.reply(from, msgs_texto.admin.rtodos.sucesso,id)
                 break
 
-            case "!r":
+            case "×r":
                 if(!botInfo().limite_diario.status) return await client.reply(from, msgs_texto.admin.r.erro_limite_diario,id)
                 if(quotedMsg){
                     let r_registrado = await db.verificarRegistro(quotedMsgObj.author)
@@ -380,7 +380,7 @@ module.exports = admin = async(client,message) => {
                 }
                 break  
                 
-            case "!verdados":
+            case "×verdados":
                 var idUsuario = "", dadosUsuario = {}
                 if(quotedMsg) idUsuario = quotedMsgObj.author
                 else if(mentionedJidList.length === 1) idUsuario = mentionedJidList[0]
@@ -398,7 +398,7 @@ module.exports = admin = async(client,message) => {
                 await client.reply(from, resposta, id)
                 break
 
-            case '!bctodos':
+            case '×bctodos':
                 if(args.length === 1) return await client.reply(from, erroComandoMsg(command), id)
                 var mensagem = body.slice(9).trim(), chats = await client.getAllChats(), bloqueados = await client.getBlockedIds()
                 await client.reply(from, criarTexto(msgs_texto.admin.bctodos.espera, chats.length, chats.length), id)
@@ -422,7 +422,7 @@ module.exports = admin = async(client,message) => {
                 await client.reply(from, msgs_texto.admin.bctodos.bc_sucesso , id)
                 break
 
-            case '!bccontatos':
+            case '×bccontatos':
                 if(args.length === 1) return client.reply(from, erroComandoMsg(command), id)
                 var mensagem = body.slice(12).trim(), chats = await client.getAllChats(), grupos = await client.getAllGroups(), bloqueados = await client.getBlockedIds(), qtdChatContatos = chats.length - grupos.length
                 await client.reply(from, criarTexto(msgs_texto.admin.bccontatos.espera, qtdChatContatos, qtdChatContatos), id)
@@ -438,7 +438,7 @@ module.exports = admin = async(client,message) => {
                 await client.reply(from, msgs_texto.admin.bccontatos.bc_sucesso , id)
                 break
             
-            case '!bcgrupos':
+            case '×bcgrupos':
                 if(args.length === 1) return client.reply(from, erroComandoMsg(command), id)
                 var mensagem = body.slice(10).trim(), grupos = await client.getAllGroups()
                 await client.reply(from, criarTexto(msgs_texto.admin.bcgrupos.espera, grupos.length, grupos.length) , id)
@@ -454,7 +454,7 @@ module.exports = admin = async(client,message) => {
                 await client.reply(from, msgs_texto.admin.bcgrupos.bc_sucesso , id)
                 break
             
-            case "!grupos":
+            case "×grupos":
                 var grupos = await client.getAllGroups(), resposta = criarTexto(msgs_texto.admin.grupos.resposta_titulo, grupos.length)
                 for (var grupo of grupos){
                     var adminsGrupo = await client.getGroupAdmins(grupo.id)
@@ -466,12 +466,12 @@ module.exports = admin = async(client,message) => {
                 await client.reply(from, resposta, id)
                 break
 
-            case '!print':
+            case '×print':
                 let print = await client.getSnapshot()
                 await client.sendFile(from,print,"print.png",'Captura de Tela',id)
                 break
 
-            case '!estado':
+            case '×estado':
                 if(args.length != 2)  return client.reply(from,erroComandoMsg(command),id)
                 switch(args[1]){
                     case 'online':
@@ -491,12 +491,12 @@ module.exports = admin = async(client,message) => {
                 }
                 break
 
-            case '!desligar':
+            case '×desligar':
                 await client.reply(from, msgs_texto.admin.desligar.sucesso, id)
                 await client.kill()
                 break
             
-            case "!ping":
+            case "×ping":
                 var os = require('os')
                 var tempoResposta = (moment.now()/1000) - t
                 var memoriaTotal = os.totalmem()/1024000000, memoriaUsada = (os.totalmem() - os.freemem())/1024000000

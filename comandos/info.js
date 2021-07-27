@@ -21,10 +21,10 @@ module.exports = info = async(client, message, abrirMenu) => {
         const groupAdmins = isGroupMsg ? await client.getGroupAdmins(groupId) : ''
         const isGroupAdmins = isGroupMsg ? groupAdmins.includes(sender.id) : false
         const ownerNumber = process.env.NUMERO_DONO.trim()
-        if(abrirMenu) command = "!menu"
+        if(abrirMenu) command = "×menu"
 
         switch(command){
-            case "!info":
+            case "×info":
                 const botFotoURL = await client.getProfilePicFromServer(botNumber+'@c.us')
                 var infoBot = JSON.parse(fs.readFileSync(path.resolve("database/json/bot.json")))
                 var botInicializacaoData = timestampParaData(infoBot.iniciado)
@@ -36,14 +36,14 @@ module.exports = info = async(client, message, abrirMenu) => {
                 }
                 break
             
-            case "!reportar":
+            case "×reportar":
                 if(args.length == 1) return client.reply(from, erroComandoMsg(command) ,id)
                 var usuarioMensagem = body.slice(10).trim(), resposta = criarTexto(msgs_texto.info.reportar.resposta, username, sender.id.replace("@c.us",""), usuarioMensagem)
                 await client.sendText(ownerNumber+"@c.us", resposta)
                 await client.reply(from,msgs_texto.info.reportar.sucesso,id)
                 break
             
-            case '!meusdados':
+            case '×meusdados':
                 var dadosUsuario = await db.obterUsuario(sender.id), tipoUsuario = dadosUsuario.tipo, maxComandosDia = dadosUsuario.max_comandos_dia ||  "Sem limite" 
                 tipoUsuario = msgs_texto.tipos[tipoUsuario]
                 var nomeUsuario = username , resposta = criarTexto(msgs_texto.info.meusdados.resposta_geral, tipoUsuario, nomeUsuario, dadosUsuario.comandos_total)
@@ -58,8 +58,8 @@ module.exports = info = async(client, message, abrirMenu) => {
                 await client.reply(from, resposta, id)
                 break
             
-            case '!menu':
-            case '!ajuda': 
+            case '×menu':
+            case '×ajuda': 
                 var dadosUsuario = await db.obterUsuario(sender.id), tipoUsuario = dadosUsuario.tipo, maxComandosDia = dadosUsuario.max_comandos_dia || "Sem limite" 
                 tipoUsuario = msgs_texto.tipos[tipoUsuario]
                 var dadosResposta = '', nomeUsuario = username
@@ -72,7 +72,8 @@ module.exports = info = async(client, message, abrirMenu) => {
 
                 if(args.length == 1){
                     var menuResposta = menu.menuPrincipal()
-                    await client.sendText(from, dadosResposta+menuResposta)
+                    const logo = './media/logo.jpg'
+                    await client.sendFile(from, logo, 'logo.jpg', dadosResposta+menuResposta)
                 } else {
                     var usuarioOpcao = args[1]
                     var menuResposta = menu.menuPrincipal()
@@ -103,10 +104,11 @@ module.exports = info = async(client, message, abrirMenu) => {
                             menuResposta = menu.menuSpam()
                             break
                     }
-                    await client.sendText(from, dadosResposta+menuResposta)
+                    const logo = './media/logo.jpg'
+                    await client.sendFile(from, logo, 'logo.jpg', dadosResposta+menuResposta)
                 }
                 break
-            case '!spam': 
+            case '×spam': 
                 var dadosUsuario = await db.obterUsuario(sender.id), tipoUsuario = dadosUsuario.tipo, maxComandosDia = dadosUsuario.max_comandos_dia || "Sin limite" 
                 tipoUsuario = msgs_texto.tipos[tipoUsuario]
                 var dadosResposta = '', nomeUsuario = username
@@ -119,7 +121,8 @@ module.exports = info = async(client, message, abrirMenu) => {
 
                 if(args.length == 1){
                     var menuResposta = menu.menuSpam()
-                    await client.sendText(from, dadosResposta+menuResposta)
+                    const logo = './media/logo.jpg'
+                    await client.sendFile(from, logo, 'logo.jpg', dadosResposta+menuResposta)
                 } else {
                     var usuarioOpcao = args[1]
                     var menuResposta = menu.menuSpam()
@@ -147,7 +150,8 @@ module.exports = info = async(client, message, abrirMenu) => {
                             break
 
                     }
-                    await client.sendText(from, dadosResposta+menuResposta)
+                    const logo = './media/logo.jpg'
+                    await client.sendFile(from, logo, 'logo.jpg', dadosResposta+menuResposta)
                 }
                 break
         }

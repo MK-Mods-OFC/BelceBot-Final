@@ -17,12 +17,12 @@ module.exports = utilidades = async(client,message) => {
         const uaOverride = 'WhatsApp/2.2029.4 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
 
         switch(command){      
-            case "!tabela":
+            case "×tabela":
                 var tabela = await api.obterTabelaNick()
                 await client.reply(from, criarTexto(msgs_texto.utilidades.tabela.resposta, tabela), id)
                 break
 
-            case "!letra":
+            case "×letra":
                 if(args.length === 1) return client.reply(from, erroComandoMsg(command), id)
                 try{
                     var usuarioTexto = body.slice(7).trim(), dadosMusica = await api.obterLetraMusica(usuarioTexto)
@@ -32,7 +32,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break
                 
-            case "!ddd":
+            case "×ddd":
                 var DDD = null
                 if(quotedMsg){
                     let DDI = quotedMsgObj.author.slice(0,2)
@@ -52,7 +52,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break
 
-            case "!audio":
+            case "×audio":
                 if(args.length === 1) return client.reply(from, erroComandoMsg(command), id)
                 var efeitosSuportados = ['estourar','x2', 'reverso', 'grave', 'agudo', 'volume'], tipoEfeito = body.slice(7).trim()
                 if(!efeitosSuportados.includes(tipoEfeito)) return client.reply(from, erroComandoMsg(command), id)
@@ -75,7 +75,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break
 
-            case "!qualmusica":
+            case "×qualmusica":
                 var dadosMensagem = quotedMsg ? quotedMsg : message
                 if(dadosMensagem.mimetype != "video/mp4" && dadosMensagem.type != "audio" && dadosMensagem.type != "ptt") return client.reply(from, erroComandoMsg(command), id)
                 var caminhoAudio = null, caminhoVideo = null
@@ -105,7 +105,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break
 
-            case "!clima":
+            case "×clima":
                 if(args.length === 1) return client.reply(from, erroComandoMsg(command),id)
                 try{
                     var usuarioTexto = body.slice(7).trim(), clima = await api.obterClima(usuarioTexto)
@@ -116,7 +116,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break
 
-            case "!moeda":
+            case "×moeda":
                 if(args.length !== 3) return client.reply(from, erroComandoMsg(command), id)
                 try{
                     var usuarioMoedaInserida = args[1], usuarioValorInserido = args[2], conversaoMoeda = await api.obterConversaoMoeda(usuarioMoedaInserida, usuarioValorInserido)
@@ -129,7 +129,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break
 
-            case "!pesquisa":
+            case "×pesquisa":
                 if (args.length === 1) return client.reply(from, erroComandoMsg(command) , id)
                 try{
                     var usuarioTexto = body.slice(10).trim(), pesquisaResultados = await api.obterPesquisaWeb(usuarioTexto)
@@ -144,7 +144,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break
 
-            case '!rastreio':
+            case '×rastreio':
                 if (args.length === 1) return client.reply(from, erroComandoMsg(command), id)
                 try{
                     var usuarioCodigoRastreio = body.slice(10).trim(), rastreioDados = await api.obterRastreioCorreios(usuarioCodigoRastreio)
@@ -160,7 +160,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break
             
-            case "!anime":
+            case "×anime":
                 if(isMedia || quotedMsg){
                     var dadosMensagem = {
                         tipo: (isMedia)? type : quotedMsg.type,
@@ -188,7 +188,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break
 
-            case "!animelanc":
+            case "×animelanc":
                 try{
                     var resultadosAnimes = await api.obterAnimesLancamentos()
                     var respostaLancamentos = msgs_texto.utilidades.animelanc.resposta_titulo
@@ -201,7 +201,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break
             
-            case "!traduz":
+            case "×traduz":
                 var usuarioTexto = "", idiomaTraducao = 'pt'
                 if(quotedMsg  && quotedMsg.type == "chat"){
                     if(args.length === 1) return client.reply(from, erroComandoMsg(command) ,id)
@@ -222,7 +222,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break  
             
-            case '!voz':
+            case '×voz':
                 var usuarioTexto = '', idMensagem = id
                 if (args.length === 1) {
                     return client.reply(from, erroComandoMsg(command) ,id)
@@ -243,7 +243,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break
 
-            case '!noticias':
+            case '×noticias':
                 try{
                     var listaNoticias = await api.obterNoticias()
                     var respostaNoticias = msgs_texto.utilidades.noticia.resposta_titulo
@@ -256,7 +256,7 @@ module.exports = utilidades = async(client,message) => {
                 }
                 break;
 
-            case '!calc':
+            case '×calc':
                 if(args.length === 1) return client.reply(from, erroComandoMsg(command) ,id)
                 var usuarioExpressaoMatematica = body.slice(6).trim()
                 try{

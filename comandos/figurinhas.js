@@ -14,7 +14,7 @@ module.exports = figurinhas = async(client,message) => {
         const uaOverride = 'WhatsApp/2.2029.4 Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'
 
         switch(command){      
-            case '!s': 
+            case '×s': 
                 if(isMedia || quotedMsg){
                     var argSticker = args.length > 1 ? args[1].toLowerCase() : ""
                     var stickerMetadata = {
@@ -50,7 +50,7 @@ module.exports = figurinhas = async(client,message) => {
                 }
                 break
             
-            case '!simg':
+            case '×simg':
                 if(quotedMsg && quotedMsg.type == "sticker"){
                     var mediaData = await decryptMedia(quotedMsg, uaOverride)
                     var imagemBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
@@ -60,7 +60,7 @@ module.exports = figurinhas = async(client,message) => {
                 }
                 break
 
-            case '!sgif':
+            case '×sgif':
                 if(isMedia || quotedMsg){
                     var argSticker = args.length > 1 ? args[1].toLowerCase() : ""
                     var stickerMetadata = {
@@ -105,7 +105,7 @@ module.exports = figurinhas = async(client,message) => {
                 }
                 break
 
-            case "!tps":
+            case "×tps":
                 if(args.length == 1 || type != "chat") return client.reply(from, erroComandoMsg(command), id)
                 var stickerMetadata = {
                     author: process.env.NOME_AUTOR_FIGURINHAS.trim(), 
@@ -127,7 +127,7 @@ module.exports = figurinhas = async(client,message) => {
                 }
                 break
 
-            case "!atps":
+            case "×atps":
                 if(args.length == 1 || type != "chat") return client.reply(from,erroComandoMsg(command),id)
                 var usuarioTexto = body.slice(5).trim()
                 if(usuarioTexto.length > 40) return client.reply(from,msgs_texto.figurinhas.atps.texto_longo,id)
@@ -140,7 +140,7 @@ module.exports = figurinhas = async(client,message) => {
                 }
                 break
             
-            case '!ssf':
+            case '×ssf':
                 if(isMedia || quotedMsg){
                     var stickerMetadata = {
                         author: process.env.NOME_AUTOR_FIGURINHAS.trim(), 

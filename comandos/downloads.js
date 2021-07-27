@@ -23,7 +23,7 @@ module.exports = downloads = async(client,message) => {
         const args =  commands.split(' ')
 
         switch(command){      
-            case "!play":
+            case "×play":
                 if(args.length === 1) return await client.reply(from,erroComandoMsg(command),id)
                 try{
                     var usuarioTexto = body.slice(6).trim(), videoInfo = await api.obterInfoVideoYT(usuarioTexto)
@@ -50,7 +50,7 @@ module.exports = downloads = async(client,message) => {
                 }
                 break
             
-            case "!yt":
+            case "×yt":
                 if(args.length === 1) return await client.reply(from,erroComandoMsg(command),id)
                 try{
                     var usuarioTexto = body.slice(4).trim(), videoInfo = await api.obterInfoVideoYT(usuarioTexto)
@@ -74,7 +74,7 @@ module.exports = downloads = async(client,message) => {
                 })
                 break
 
-            case "!fb":
+            case "×fb":
                 if(args.length === 1) return await client.reply(from, erroComandoMsg(command), id)
                 try{
                     var usuarioURL = body.slice(4).trim(), resultadosMidia = await api.obterMidiaFacebook(usuarioURL)
@@ -90,7 +90,7 @@ module.exports = downloads = async(client,message) => {
                 } 
                 break
 
-            case "!ig":
+            case "×ig":
                 if(args.length === 1) return await client.reply(from,erroComandoMsg(command),id)
                 await client.reply(from, msgs_texto.downloads.ig.espera, id)
                 await filaIg.add(async ()=>{
@@ -113,7 +113,7 @@ module.exports = downloads = async(client,message) => {
                 })
                 break
 
-            case "!tw":
+            case "×tw":
                 if(args.length === 1) return await client.reply(from,erroComandoMsg(command),id)
                 await client.reply(from,msgs_texto.downloads.tw.espera,id)
                 await filaTw.add(async ()=>{
@@ -136,7 +136,7 @@ module.exports = downloads = async(client,message) => {
                 })
                 break
 
-            case "!tk":
+            case "×tk":
                 if(args.length === 1) return await client.reply(from,erroComandoMsg(command),id)
                 try{
                     var usuarioTexto = body.slice(4).trim(), resultadoTiktok= await api.obterMidiaTiktok(usuarioTexto)
@@ -156,7 +156,7 @@ module.exports = downloads = async(client,message) => {
                 }
                 break
             
-            case '!img':
+            case '×img':
                 if(quotedMsg || type != "chat") return await client.reply(from, erroComandoMsg(command) , id)
                 var usuarioQuantidadeFotos = args[1], qtdFotos = 1, textoPesquisa = ""
                 if(!isNaN(usuarioQuantidadeFotos)){
