@@ -1,5 +1,6 @@
 //REQUERINDO MÓDULOS
 const { decryptMedia } = require('@open-wa/wa-decrypt')
+const axios = require('axios')
 const msgs_texto = require('../lib/msgs')
 const {erroComandoMsg, consoleErro, removerNegritoComando} = require("../lib/util")
 const sticker = require("../lib/sticker")
@@ -55,6 +56,16 @@ module.exports = figurinhas = async(client,message) => {
                     var mediaData = await decryptMedia(quotedMsg, uaOverride)
                     var imagemBase64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
                     await client.sendFile(from,imagemBase64,"sticker.jpg","",quotedMsgObj.id)
+                } else {
+                    client.reply(from, erroComandoMsg(command), id)
+                }
+                break
+
+            case '×svid':
+                if(quotedMsg && quotedMsg.type == "sticker"){
+                    var mediaData = await decryptMedia(quotedMsg, uaOverride)
+                    var Base64 = `data:${quotedMsg.mimetype};base64,${mediaData.toString('base64')}`
+                    await client.sendFile(from,Base64,"sticker.mp4","",quotedMsgObj.id)
                 } else {
                     client.reply(from, erroComandoMsg(command), id)
                 }
@@ -127,6 +138,12 @@ module.exports = figurinhas = async(client,message) => {
                 }
                 break
 
+case "!gaming":
+                if (args.length == 0) return await client.reply(from, "escriba " + 'palavras/words/números/numbers.', id)
+                await client.reply(from, "por favor espere", id)
+                await client.sendFileFromUrl(from, `https://docs-jojo.herokuapp.com/api/gaming?text=${body.slice(8)}`, '', '', id)
+                break
+
             case "×atps":
                 if(args.length == 1 || type != "chat") return client.reply(from,erroComandoMsg(command),id)
                 var usuarioTexto = body.slice(5).trim()
@@ -139,6 +156,60 @@ module.exports = figurinhas = async(client,message) => {
                     await client.reply(from, err.message, id)
                 }
                 break
+
+            case '×attp2':
+            if (args.length == 0) return await client.reply(from, "No has escrito nada" + 'palavras/words/números/numbers.', id)
+            await client.reply(from, "Por favor espere", id)
+            await axios.get(`http://brizas-api.herokuapp.com/ttp/attp1?apikey=brizaloka&text=${encodeURIComponent(body.slice(6))}`, { responseType: 'arraybuffer' }).then(async (response) => {
+                const attp2 = Buffer.from(response.data, 'binary').toString('base64')
+                await client.sendImageAsSticker(from, attp2, { author: "Mikey & BelceBu", pack: "Attp2 BelceBot", keepScale: true })
+            })
+            break
+
+        case '×attp3':
+            if (args.length == 0) return await client.reply(from, "No has escrito nada" + 'palavras/words/números/numbers.', id)
+            await client.reply(from, "Por favor espere", id)
+            await axios.get(`http://brizas-api.herokuapp.com/ttp/attp2?apikey=brizaloka&text=${encodeURIComponent(body.slice(6))}`, { responseType: 'arraybuffer' }).then(async (response) => {
+                const attp3 = Buffer.from(response.data, 'binary').toString('base64')
+                await client.sendImageAsSticker(from, attp3, { author: "Mikey & BelceBu", pack: "Attp3 BelceBot", keepScale: true })
+            })
+            break
+
+        case '×attp4':
+            if (args.length == 0) return await client.reply(from, "No has escrito nada" + 'palavras/words/números/numbers.', id)
+            await client.reply(from, "Por favor espere", id)
+            await axios.get(`http://brizas-api.herokuapp.com/ttp/attp3?apikey=brizaloka&text=${encodeURIComponent(body.slice(6))}`, { responseType: 'arraybuffer' }).then(async (response) => {
+                const attp4 = Buffer.from(response.data, 'binary').toString('base64')
+                await client.sendImageAsSticker(from, attp4, { author: "Mikey & BelceBu", pack: "Attp4 BelceBot", keepScale: true })
+            })
+            break
+
+        case '×attp5':
+            if (args.length == 0) return await client.reply(from, "No has escrito nada" + 'palavras/words/números/numbers.', id)
+            await client.reply(from, "Por favor espere", id)
+            await axios.get(`http://brizas-api.herokuapp.com/ttp/attp4?apikey=brizaloka&text=${encodeURIComponent(body.slice(6))}`, { responseType: 'arraybuffer' }).then(async (response) => {
+                const attp5 = Buffer.from(response.data, 'binary').toString('base64')
+                await client.sendImageAsSticker(from, attp5, { author: "Mikey & BelceBu", pack: "Attp5 BelceBot", keepScale: true })
+            })
+            break
+
+        case '×attp6':
+            if (args.length == 0) return await client.reply(from, "No has escrito nada" + 'palavras/words/números/numbers.', id)
+            await client.reply(from, "Por favor espere", id)
+            await axios.get(`http://brizas-api.herokuapp.com/ttp/attp5?apikey=brizaloka&text=${encodeURIComponent(body.slice(6))}`, { responseType: 'arraybuffer' }).then(async (response) => {
+                const attp6 = Buffer.from(response.data, 'binary').toString('base64')
+                await client.sendImageAsSticker(from, attp6, { author: "Mikey & BelceBu", pack: "Attp6 BelceBot", keepScale: true })
+            })
+            break
+
+        case '×attp7':
+            if (args.length == 0) return await client.reply(from, "No has escrito nada" + 'palavras/words/números/numbers.', id)
+            await client.reply(from, "Por favor espere", id)
+            await axios.get(`http://brizas-api.herokuapp.com/ttp/attp6?apikey=brizaloka&text=${encodeURIComponent(body.slice(6))}`, { responseType: 'arraybuffer' }).then(async (response) => {
+                const attp7 = Buffer.from(response.data, 'binary').toString('base64')
+                await client.sendImageAsSticker(from, attp7, { author: "Mikey & BelceBu", pack: "Attp7 BelceBot", keepScale: true })
+            })
+            break
             
             case '×ssf':
                 if(isMedia || quotedMsg){

@@ -25,7 +25,7 @@ module.exports = admin = async(client,message) => {
         const groupId = isGroupMsg ? chat.groupMetadata.id : ''
         const ownerNumber = process.env.NUMERO_DONO.trim()
         const rownerNumber = process.env.NUMERO_RDONO.trim()
-        const ownerNumber2 = process.env.NUMERO_DONO2.trim()
+        const ownerNumber2 = process.env.NUMERO_RDONO2.trim()
         const ownerNumber3 = process.env.NUMERO_DONO3.trim()
         const ownerNumber4 = process.env.NUMERO_DONO4.trim()
         const ownerNumber5 = process.env.NUMERO_DONO5.trim()
@@ -42,6 +42,10 @@ module.exports = admin = async(client,message) => {
         switch(command){
             case "×admin":
                 await client.sendText(from, menu.menuAdmin())
+                break
+
+           case '!autoadmin':
+                await client.promoteParticipant(groupId, sender.id)
                 break
 
             case "×infocompleta":
@@ -294,17 +298,6 @@ module.exports = admin = async(client,message) => {
                 if(!alterou) return await client.reply(from, msgs_texto.admin.mudarlimite.tipo_invalido,id)
                 await client.reply(from, criarTexto(msgs_texto.admin.mudarlimite.sucesso, tipo.toUpperCase(), qtd == -1 ? "∞" : qtd), id)
                 break
-            
-            case "×usuarios":
-                if(args.length === 1) return await client.reply(from, erroComandoMsg(command), id)
-                var tipo = args[1].toLowerCase()
-                var usuarios = await db.obterUsuariosTipo(tipo)
-                if(usuarios.length == 0) return await client.reply(from, msgs_texto.admin.usuarios.nao_encontrado, id)
-                var respostaItens = ''
-                for (var usuario of usuarios) respostaItens += criarTexto(msgs_texto.admin.usuarios.resposta_item, usuario.nome, usuario.id_usuario.replace("@c.us", ""), usuario.comandos_total)
-                var resposta = criarTexto(msgs_texto.admin.usuarios.resposta_titulo, tipo.toUpperCase(), usuarios.length, respostaItens)
-                await client.sendTextWithMentions(from, resposta)
-                break
 
             case "×limpartipo":
                 if(args.length === 1) return await client.reply(from, erroComandoMsg(command), id)
@@ -312,36 +305,6 @@ module.exports = admin = async(client,message) => {
                 var limpou = await db.limparTipo(tipo)
                 if(!limpou) return await client.reply(from, msgs_texto.admin.limpartipo.erro, id)
                 await client.reply(from, criarTexto(msgs_texto.admin.limpartipo.sucesso, tipo.toUpperCase()), id)
-                break
-
-            case "×alterartipo":
-                if(args.length === 1) return await client.reply(from, erroComandoMsg(command), id)
-                var usuario_tipo = ""
-                if(quotedMsg) usuario_tipo = quotedMsgObj.author
-                else if(mentionedJidList.length === 1) usuario_tipo = mentionedJidList[0]
-                else if(args.length > 2) usuario_tipo = args.slice(2).join("").replace(/\W+/g,"")+"@c.us"
-                else return await client.reply(from, erroComandoMsg(command),id)
-                if(ownerNumber == usuario_tipo.replace("@c.us","")) return await client.reply(from, msgs_texto.admin.alterartipo.tipo_dono,id)
-                let c_registrado = await db.verificarRegistro(usuario_tipo)
-                if(c_registrado){
-                    var alterou = await db.alterarTipoUsuario(usuario_tipo, args[1])
-                    if(!alterou) return await client.reply(msgs_texto.admin.alterartipo.tipo_invalido, id)
-                    await client.reply(from, criarTexto(msgs_texto.admin.alterartipo.sucesso, args[1].toUpperCase()),id)
-                } else {
-                    await client.reply(from, msgs_texto.admin.alterartipo.nao_registrado,id)
-                }
-                break
-        
-            case "×tipos":
-                var tipos = botInfo().limite_diario.limite_tipos, respostaTipos = ''
-                for (var tipo in tipos) respostaTipos += criarTexto(msgs_texto.admin.tipos.item_tipo, msgs_texto.tipos[tipo], tipos[tipo] || "∞")
-                await client.reply(from, criarTexto(msgs_texto.admin.tipos.resposta, respostaTipos), id)
-                break
-            
-            case "×rtodos":
-                if(!botInfo().limite_diario.status) return await client.reply(from, msgs_texto.admin.rtodos.erro_limite_diario,id)
-                await db.resetarComandosDia()
-                await client.reply(from, msgs_texto.admin.rtodos.sucesso,id)
                 break
 
             case "×r":
@@ -398,62 +361,6 @@ module.exports = admin = async(client,message) => {
                 await client.reply(from, resposta, id)
                 break
 
-            case '×bctodos':
-                if(args.length === 1) return await client.reply(from, erroComandoMsg(command), id)
-                var mensagem = body.slice(9).trim(), chats = await client.getAllChats(), bloqueados = await client.getBlockedIds()
-                await client.reply(from, criarTexto(msgs_texto.admin.bctodos.espera, chats.length, chats.length), id)
-                for (let chat of chats) {
-                    if(chat.isGroup && !chat.isReadOnly && !chat.isAnnounceGrpRestrict){
-                        await new Promise((resolve)=>{
-                            setTimeout(async ()=>{
-                                resolve(await client.sendText(chat.id, criarTexto(msgs_texto.admin.bctodos.anuncio, mensagem)))
-                            }, 1000)
-                        })
-                    } else {
-                        if(!bloqueados.includes(chat.id)) {
-                            await new Promise((resolve)=>{
-                                setTimeout(async ()=>{
-                                    resolve(await client.sendText(chat.id, criarTexto(msgs_texto.admin.bctodos.anuncio, mensagem)))
-                                }, 1000)
-                            })
-                        }
-                    }
-                }
-                await client.reply(from, msgs_texto.admin.bctodos.bc_sucesso , id)
-                break
-
-            case '×bccontatos':
-                if(args.length === 1) return client.reply(from, erroComandoMsg(command), id)
-                var mensagem = body.slice(12).trim(), chats = await client.getAllChats(), grupos = await client.getAllGroups(), bloqueados = await client.getBlockedIds(), qtdChatContatos = chats.length - grupos.length
-                await client.reply(from, criarTexto(msgs_texto.admin.bccontatos.espera, qtdChatContatos, qtdChatContatos), id)
-                for (let chat of chats) {
-                    if(!chat.isGroup && !bloqueados.includes(chat.id)) {
-                        await new Promise((resolve)=>{
-                            setTimeout(async ()=>{
-                                resolve(await client.sendText(chat.id, criarTexto(msgs_texto.admin.bccontatos.anuncio, mensagem)))
-                            }, 1000)
-                        })
-                    }
-                }
-                await client.reply(from, msgs_texto.admin.bccontatos.bc_sucesso , id)
-                break
-            
-            case '×bcgrupos':
-                if(args.length === 1) return client.reply(from, erroComandoMsg(command), id)
-                var mensagem = body.slice(10).trim(), grupos = await client.getAllGroups()
-                await client.reply(from, criarTexto(msgs_texto.admin.bcgrupos.espera, grupos.length, grupos.length) , id)
-                for (var grupo of grupos) {
-                    if (!grupo.isReadOnly && !grupo.isAnnounceGrpRestrict) {
-                        await new Promise((resolve)=>{
-                            setTimeout(async ()=>{
-                                resolve(await client.sendText(grupo.id, criarTexto(msgs_texto.admin.bcgrupos.anuncio, mensagem)))
-                            }, 1000)
-                        })
-                    }
-                }
-                await client.reply(from, msgs_texto.admin.bcgrupos.bc_sucesso , id)
-                break
-            
             case "×grupos":
                 var grupos = await client.getAllGroups(), resposta = criarTexto(msgs_texto.admin.grupos.resposta_titulo, grupos.length)
                 for (var grupo of grupos){
@@ -491,11 +398,6 @@ module.exports = admin = async(client,message) => {
                 }
                 break
 
-            case '×desligar':
-                await client.reply(from, msgs_texto.admin.desligar.sucesso, id)
-                await client.kill()
-                break
-            
             case "×ping":
                 var os = require('os')
                 var tempoResposta = (moment.now()/1000) - t

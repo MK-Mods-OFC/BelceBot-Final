@@ -1,8 +1,10 @@
 //REQUERINDO MÓDULOS
 const fs = require('fs-extra')
+const axios = require('axios')
 const menu = require('../lib/menu')
 const msgs_texto = require('../lib/msgs')
 const { version } = require('../package.json')
+
 const {criarTexto, erroComandoMsg, removerNegritoComando, timestampParaData} = require("../lib/util")
 const path = require('path')
 const db = require('../lib/database')
@@ -10,12 +12,13 @@ const {botInfo} = require(path.resolve("lib/bot.js"))
 
 module.exports = info = async(client, message, abrirMenu) => {
     try{
-        const {id, from, sender, chat, isGroupMsg, caption, body} = message
+        const {id, from, sender, chat, isGroupMsg, caption, body, quotedMsg, mentionedJidList} = message
         const { pushname, verifiedName, formattedName } = sender, username = pushname || verifiedName || formattedName
         const commands = caption || body || ''
         var command = commands.toLowerCase().split(' ')[0] || ''
         command = removerNegritoComando(command)
         const args =  commands.split(' ')
+        const user = sender.id
         const botNumber = await client.getHostNumber()
         const groupId = isGroupMsg ? chat.groupMetadata.id : ''
         const groupAdmins = isGroupMsg ? await client.getGroupAdmins(groupId) : ''
@@ -36,6 +39,22 @@ module.exports = info = async(client, message, abrirMenu) => {
                 }
                 break
             
+            case '×profile':
+            case '×perfil':
+                if (isGroupMsg) {
+                    if (mentionedJidList.length !== 0) menUser = await client.getContact(mentionedJidList[0])
+                    var qmid = quotedMsg ? quotedMsgObj.sender.id : (mentionedJidList.length !== 0 ? menUser.id : user)
+                    var pic = await client.getProfilePicFromServer(qmid)
+                    var namae = quotedMsg ? quotedMsgObj.sender.pushname : (mentionedJidList.length !== 0 ? menUser.pushname : pushname)
+                    var sts = await client.getStatus(qmid)
+                    var adm = groupAdmins.includes(qmid) ? 'Si' : 'No'
+                    var { status } = sts;status == '' || status == '401' ? status = '' : status = `\n\n💌️ *Frase de mensaje?*\n${status}`
+                    if (pic == null || typeof pic === 'object') { var pfp = errorurl } else { var pfp = pic }
+                    await client.sendFileFromUrl(from, pfp, 'pfo.jpg', `🔖️ *Usertag? ${namae}*
+👑️ *Administrador? ${adm}*`, id)
+                } else return await client.reply(from, msgs_texto.permissao.grupo, id)
+                break
+
             case "×reportar":
                 if(args.length == 1) return client.reply(from, erroComandoMsg(command) ,id)
                 var usuarioMensagem = body.slice(10).trim(), resposta = criarTexto(msgs_texto.info.reportar.resposta, username, sender.id.replace("@c.us",""), usuarioMensagem)
@@ -68,11 +87,11 @@ module.exports = info = async(client, message, abrirMenu) => {
                 } else {
                     dadosResposta = criarTexto(msgs_texto.info.ajuda.resposta_comum, nomeUsuario, tipoUsuario)
                 }
-                dadosResposta += `═════════════════\n`
+                dadosResposta += `╍╍╍╍╍𝙱𝙸𝙴𝙽𝚅𝙴𝙽𝙸𝙳𝙾╍╍╍╍╍╍\n`
 
                 if(args.length == 1){
                     var menuResposta = menu.menuPrincipal()
-                    const logo = './media/logo.jpg'
+                    const logo = './lib/imagemenus/logo.jpg'
                     await client.sendFile(from, logo, 'logo.jpg', dadosResposta+menuResposta)
                 } else {
                     var usuarioOpcao = args[1]
@@ -103,11 +122,15 @@ module.exports = info = async(client, message, abrirMenu) => {
                         case "7":
                             menuResposta = menu.menuSpam()
                             break
+                        case "8":
+                            menuResposta = menu.menuMaker()
+                            break
                     }
-                    const logo = './media/logo.jpg'
+                    const logo = './lib/imagemenus/logo.jpg'
                     await client.sendFile(from, logo, 'logo.jpg', dadosResposta+menuResposta)
                 }
                 break
+
             case '×spam': 
                 var dadosUsuario = await db.obterUsuario(sender.id), tipoUsuario = dadosUsuario.tipo, maxComandosDia = dadosUsuario.max_comandos_dia || "Sin limite" 
                 tipoUsuario = msgs_texto.tipos[tipoUsuario]
@@ -117,11 +140,11 @@ module.exports = info = async(client, message, abrirMenu) => {
                 } else {
                     dadosResposta = criarTexto(msgs_texto.info.ajuda.resposta_comum, nomeUsuario, tipoUsuario)
                 }
-                dadosResposta += `═════════════════\n`
+                dadosResposta += `╍╍╍╍╍𝙱𝙸𝙴𝙽𝚅𝙴𝙽𝙸𝙳𝙾╍╍╍╍╍╍\n`
 
                 if(args.length == 1){
                     var menuResposta = menu.menuSpam()
-                    const logo = './media/logo.jpg'
+                    const logo = '../lib/imagemenus/logo.jpg'
                     await client.sendFile(from, logo, 'logo.jpg', dadosResposta+menuResposta)
                 } else {
                     var usuarioOpcao = args[1]
@@ -148,9 +171,12 @@ module.exports = info = async(client, message, abrirMenu) => {
                         case "6":
                             menuResposta = menu.menuBots()
                             break
+                        case "7":
+                            menuResposta = menu.menuWhaInm()
+                            break
 
                     }
-                    const logo = './media/logo.jpg'
+                    const logo = './lib/imagemenus/logo.jpg'
                     await client.sendFile(from, logo, 'logo.jpg', dadosResposta+menuResposta)
                 }
                 break
